@@ -1,0 +1,71 @@
+body{
+	font: 62.5% "Trebuchet MS", sans-serif;
+	margin: 50px;
+}
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}
+#upload_status {
+    max-height: 400px;
+    min-height: 29px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.upload_rule {
+    border: 1px dashed lightgray;
+}
+.upload_div {
+    vertical-align: middle;
+    display: table-row;
+}
+.upload_img_div {
+    border-top: dashed lightgray 1px;
+    vertical-align: middle;
+    margin: 0px;
+    display: table-cell;
+    padding: 5px;
+}
+.upload_img {
+    width: 128px;
+    height: 128px;
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+.upload_content {
+    border-top: dashed lightgray 1px;
+    height: 120px;
+    vertical-align: middle;
+    display: table-cell;
+    width: 100%;
+    padding: 5px;
+}
+.upload_title {
+    display: inline;
+}
+.upload_progress_bar {
+    display: inline;
+}
+.ui-progressbar {
+    position: relative;
+}
+.upload_progress_label {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 4px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #fff;
+}
+.upload_button {
+    float: right;
+}
+.ui-button {
+    margin: 3px;
+}
+.ui-progressbar {
+    margin-top: 3px;
+}
+.scaled_img {
+    max-width: 100%;
+}

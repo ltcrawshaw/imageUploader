@@ -1,0 +1,8 @@
+xampp/mysql/bin/my.ini:
+	max_allowed_packet = 16M
+	innodb_log_file_size = 256M
+xampp/php/php.ini:
+	post_max_size=16M
+	upload_max_filesize=16M
+	date.timezone = "America/Los_Angeles"
+	display_startup_errors=Off
