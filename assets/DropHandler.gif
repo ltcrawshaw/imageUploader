@@ -7,7 +7,7 @@ function DropHandler(target, progressDialog) {
         
         ui.addStatus();
         if(file.type.indexOf("image") == -1) {
-            ui.cancel();
+            ui.cancel().hide();
         }
         console.log("Name: " + file.name + ", Type:" + file.type + ", Size: " + file.size + ", Last Modified: " + file.lastModifiedDate);
     }

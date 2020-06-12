@@ -19,9 +19,9 @@ function ImageUI() {
             beforeActivate: function(event, ui) {
                 var img = ui.newPanel.find("img");
 
-                img.attr("src", "fetch_image.php?id=" + img.data("id"));
+                img.attr("src", "fetchImage?id=" + img.data("id"));
             },
-            active: function(event, ui) {
+            activate: function(event, ui) {
                 var header = ui.newHeader || ui.oldHeader;
 
                 if(header !== undefined && header.length > 0) {

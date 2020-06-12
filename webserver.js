@@ -3,10 +3,12 @@ var url = require('url');
 var fs = require('fs');
 var mime = require('mime');
 var imageDB = require('imageDB');
+var bl = require('bl');
+var multiparty = require('multiparty');
 
 function fileNotFound(response) {
     response.writeHead(404, {'Content-Type': 'text/html'});
-    response.end(
+    response.end(  
         "<!DOCTYPE html>" 
         + "<html>" 
         + "<head>" 
@@ -20,9 +22,45 @@ function fileNotFound(response) {
     );
 }
 
+function uploadFile(request, response) {
+    var form = new multiparty.Form();
+
+    form.on('error', function(err) {
+        console.log(err);
+        fileNotFound(response);
+    })
+
+    form.on('part', function(part) {
+        part.pipe(bl(function(err, data) {
+            if(err) {
+                console.log(err);
+                fileNotFound(response);
+        } else {
+            imageDB.uploadFile({
+                name: part.filename,
+                type: part.headers["content-type"],
+                size: part.byteCount,
+                data: data
+            }, function(resp) {
+                    response.writeHead(200, {
+                        'Content-Type': 'application/json; charset=utf-8',
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+                    });
+                    response.end(JSON.stringify(resp));
+            });
+        }
+    }));
+});
+    
+    form.parse(request);
+}
+
 function servePage(path, response) {
     var stream = fs.createReadStream(path);
+    
     response.writeHead(200, {"Content-Type": mime.getType(path) });
+    
     stream.on('error', function(err) {
         console.log(err);
         fileNotFound(response);
@@ -51,9 +89,18 @@ http.createServer(function(request, response) {
             });
             response.end(JSON.stringify(data));
         });
-    }
+     } else if(urlReq.pathname === '/images/fetchImage') {
+            imageDB.fetchImage(urlReq.query.id, function(image) {
+                response.writeHead(200, {
+                    'Content-Type': image.type,
+                    'Content-Length': image.size
+                });
+                response.end(image.data);
+            });
+    } else if(urlReq.pathname === '/images/uploader') {
+        uploadFile(request, response);
     
-    if(urlReq.pathname.substring(0, 8) === '/images/') {
+    } else if(urlReq.pathname.substring(0, 8) === '/images/') {
         servePage('assets/'+ urlReq.pathname.substring(8) , response);
     } else { 
         fileNotFound(response); 

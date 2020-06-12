@@ -68,7 +68,7 @@ function FileUploadHandler(file, ui) {
 
         $.ajax({
             type: "POST",
-            url:  "uploader.php",
+            url:  "uploader",
             data: fd,
             processData: false,
             contentType: false,
